@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big T — Beginner Training Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111111;
+    --card-bg: #161616;
+    --border: #2a2a2a;
+    --red: #c8302a;
+    --red-dim: #7a1a16;
+    --white: #f0ede8;
+    --muted: #888;
+    --lighter: #bbb;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* HERO */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 9vw, 96px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--red);
+  }
+
+  .hero-sub {
+    margin-top: 20px;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  .hero-meta {
+    text-align: right;
+  }
+
+  .meta-stat {
+    margin-bottom: 16px;
+  }
+
+  .meta-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--white);
+  }
+
+  .meta-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* DOWNLOAD BTN */
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    margin-top: 32px;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+
+  .download-btn:hover { background: #e03d36; transform: translateY(-1px); }
+  .download-btn:active { transform: translateY(0); }
+
+  .download-btn svg { flex-shrink: 0; }
+
+  /* INTRO RULES */
+  .rules-section {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .rule-card {
+    background: var(--card-bg);
+    padding: 24px 20px;
+  }
+
+  .rule-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--red-dim);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .rule-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--lighter);
+    margin-bottom: 6px;
+  }
+
+  .rule-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-top: 60px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-tag {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* SCHEDULE OVERVIEW */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 40px;
+  }
+
+  .day-chip {
+    text-align: center;
+    padding: 12px 4px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+
+  .day-chip.active {
+    border-color: var(--red);
+    background: #1a0e0d;
+  }
+
+  .day-chip.rest {
+    opacity: 0.5;
+  }
+
+  .day-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .day-chip.active .day-name { color: var(--red); }
+
+  .day-type {
+    font-size: 11px;
+    color: var(--lighter);
+    line-height: 1.3;
+  }
+
+  .day-chip.rest .day-type { color: var(--muted); }
+
+  /* WORKOUT DAYS */
+  .workout-day {
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    background: #1a1a1a;
+  }
+
+  .day-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .day-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .day-focus {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .day-focus small {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .day-duration {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* EXERCISE TABLE */
+  .exercise-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .exercise-table thead tr {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exercise-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 24px;
+    text-align: left;
+  }
+
+  .exercise-table th:not(:first-child) { text-align: center; }
+
+  .exercise-table td {
+    padding: 14px 24px;
+    font-size: 14px;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: middle;
+  }
+
+  .exercise-table tr:last-child td { border-bottom: none; }
+
+  .exercise-table td:not(:first-child) {
+    text-align: center;
+    color: var(--lighter);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .ex-name {
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  .ex-note {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 400;
+  }
+
+  .sets-badge {
+    display: inline-block;
+    background: var(--red-dim);
+    color: #e8a09d;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+  }
+
+  /* NUTRITION STRIP */
+  .nutrition-strip {
+    margin-top: 56px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    gap: 0;
+  }
+
+  .nut-divider {
+    background: var(--border);
+    margin: 0 32px;
+  }
+
+  .nut-item {}
+
+  .nut-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .nut-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .nut-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* TIPS */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .tip-card {
+    border: 1px solid var(--border);
+    padding: 20px;
+    background: var(--card-bg);
+  }
+
+  .tip-icon {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .tip-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .tip-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--red); }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* PROGRESS BAR ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero { animation: fadeUp 0.6s ease both; }
+  .rules-section { animation: fadeUp 0.6s ease 0.15s both; }
+  .schedule-grid { animation: fadeUp 0.6s ease 0.2s both; }
+  .workout-day { animation: fadeUp 0.5s ease both; }
+  .workout-day:nth-child(1) { animation-delay: 0.05s; }
+  .workout-day:nth-child(2) { animation-delay: 0.1s; }
+  .workout-day:nth-child(3) { animation-delay: 0.15s; }
+  .workout-day:nth-child(4) { animation-delay: 0.2s; }
+
+  /* DIVIDER LINE */
+  .redline {
+    width: 48px;
+    height: 3px;
+    background: var(--red);
+    margin: 16px 0;
+  }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-meta { text-align: left; display: flex; gap: 32px; }
+    .schedule-grid { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .nutrition-strip { grid-template-columns: 1fr; }
+    .nut-divider { display: none; }
+    .nut-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .nut-item:last-child { border-bottom: none; }
+    .exercise-table th, .exercise-table td { padding: 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div>
+      <div class="hero-eyebrow">@tobifitlab · Free Training Program</div>
+      <h1 class="hero-title">
+        BEGINNER
+        <span>BLUEPRINT</span>
+      </h1>
+      <div class="redline"></div>
+      <p class="hero-sub">
+        A no-fluff 4-day training program built for anyone starting from zero.
+        Follow it for 8–12 weeks, stay consistent, and you will see results. Guaranteed.
+      </p>
+      <button class="download-btn" onclick="downloadPDF()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1v9M4 7l4 4 4-4M2 14h12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Download Free PDF
+      </button>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-stat">
+        <div class="meta-num">4</div>
+        <div class="meta-label">Days / Week</div>
+      </div>
+      <div class="meta-stat">
+        <div class="meta-num">8–12</div>
+        <div class="meta-label">Week Program</div>
+      </div>
+      <div class="meta-stat">
+        <div class="meta-num">60</div>
+        <div class="meta-label">Min / Session</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- RULES -->
+  <div class="rules-section">
+    <div class="rule-card">
+      <div class="rule-num">01</div>
+      <div class="rule-title">Consistency First</div>
+      <div class="rule-text">4 days a week, every week. Missing sessions is the number one reason beginners don't see results.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">02</div>
+      <div class="rule-title">Progressive Overload</div>
+      <div class="rule-text">Add weight or reps every 1–2 weeks. If it doesn't challenge you, it doesn't change you.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">03</div>
+      <div class="rule-title">Form Over Ego</div>
+      <div class="rule-text">Light weight with perfect form builds more muscle than heavy weight with bad form. Always.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">04</div>
+      <div class="rule-title">Rest & Recover</div>
+      <div class="rule-text">Muscle is built outside the gym. Sleep 6–8 hours. Rest days are part of the program.</div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section-header">
+    <h2 class="section-title">Weekly Schedule</h2>
+    <div class="section-line"></div>
+    <div class="section-tag">Upper / Lower Split</div>
+  </div>
+
+  <div class="schedule-grid">
+    <div class="day-chip active">
+      <div class="day-name">Mon</div>
+      <div class="day-type">Upper A</div>
+    </div>
+    <div class="day-chip active">
+      <div class="day-name">Tue</div>
+      <div class="day-type">Lower A</div>
+    </div>
+    <div class="day-chip rest">
+      <div class="day-name">Wed</div>
+      <div class="day-type">Rest</div>
+    </div>
+    <div class="day-chip active">
+      <div class="day-name">Thu</div>
+      <div class="day-type">Upper B</div>
+    </div>
+    <div class="day-chip active">
+      <div class="day-name">Fri</div>
+      <div class="day-type">Lower B</div>
+    </div>
+    <div class="day-chip rest">
+      <div class="day-name">Sat</div>
+      <div class="day-type">Rest</div>
+    </div>
+    <div class="day-chip rest">
+      <div class="day-name">Sun</div>
+      <div class="day-type">Rest</div>
+    </div>
+  </div>
+
+  <!-- WORKOUT DAYS -->
+  <div class="section-header">
+    <h2 class="section-title">The Program</h2>
+    <div class="section-line"></div>
+    <div class="section-tag">4 Training Days</div>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="workout-day">
+    <div class="day-header">
+      <div class="day-header-left">
+        <div class="day-label">MON</div>
+        <div>
+          <div class="day-focus">Upper Body A — Push Focus
+            <small>Chest · Shoulders · Triceps</small>
+          </div>
+        </div>
+      </div>
+      <div class="day-duration">~55 min</div>
+    </div>
+    <table class="exercise-table">
+      <thead>
+        <tr>
+          <th style="width:42%">Exercise</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Rest</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Barbell Bench Press</span><span class="ex-note">Control the descent, full range of motion</span></td>
+          <td><span class="sets-badge">4</span></td>
+          <td>8–10</td>
+          <td>90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Incline Dumbbell Press</span><span class="ex-note">30–45° incline, squeeze at top</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Seated Dumbbell Shoulder Press</span><span class="ex-note">Don't lock out at top, keep tension</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Lateral Raises</span><span class="ex-note">Light weight, lead with elbows</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>12–15</td>
+          <td>60s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Tricep Cable Pushdown</span><span class="ex-note">Elbows locked at sides, full extension</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>12–15</td>
+          <td>60s</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="workout-day">
+    <div class="day-header">
+      <div class="day-header-left">
+        <div class="day-label">TUE</div>
+        <div>
+          <div class="day-focus">Lower Body A — Quad Focus
+            <small>Quads · Glutes · Calves</small>
+          </div>
+        </div>
+      </div>
+      <div class="day-duration">~60 min</div>
+    </div>
+    <table class="exercise-table">
+      <thead>
+        <tr>
+          <th style="width:42%">Exercise</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Rest</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Barbell Back Squat</span><span class="ex-note">Feet shoulder-width, knees track toes</span></td>
+          <td><span class="sets-badge">4</span></td>
+          <td>6–8</td>
+          <td>2 min</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg Press</span><span class="ex-note">Full depth, don't lock knees at top</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Walking Lunges</span><span class="ex-note">Bodyweight or dumbbells, stay upright</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10 each</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg Extension</span><span class="ex-note">Isolate the quad, slow on the way down</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>12–15</td>
+          <td>60s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Standing Calf Raises</span><span class="ex-note">Full stretch at bottom, pause at top</span></td>
+          <td><span class="sets-badge">4</span></td>
+          <td>15–20</td>
+          <td>45s</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="workout-day">
+    <div class="day-header">
+      <div class="day-header-left">
+        <div class="day-label">THU</div>
+        <div>
+          <div class="day-focus">Upper Body B — Pull Focus
+            <small>Back · Biceps · Rear Delts</small>
+          </div>
+        </div>
+      </div>
+      <div class="day-duration">~55 min</div>
+    </div>
+    <table class="exercise-table">
+      <thead>
+        <tr>
+          <th style="width:42%">Exercise</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Rest</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Barbell / Dumbbell Row</span><span class="ex-note">Chest supported or bent-over, pull to hip</span></td>
+          <td><span class="sets-badge">4</span></td>
+          <td>8–10</td>
+          <td>90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Lat Pulldown</span><span class="ex-note">Wide grip, pull to upper chest, lean back slightly</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Seated Cable Row</span><span class="ex-note">Neutral grip, squeeze shoulder blades at end</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Face Pulls</span><span class="ex-note">Pull to forehead, elbows high — rear delt builder</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>12–15</td>
+          <td>60s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Dumbbell Bicep Curl</span><span class="ex-note">Supinate at top, don't swing your body</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>60s</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="workout-day">
+    <div class="day-header">
+      <div class="day-header-left">
+        <div class="day-label">FRI</div>
+        <div>
+          <div class="day-focus">Lower Body B — Posterior Chain
+            <small>Hamstrings · Glutes · Lower Back</small>
+          </div>
+        </div>
+      </div>
+      <div class="day-duration">~60 min</div>
+    </div>
+    <table class="exercise-table">
+      <thead>
+        <tr>
+          <th style="width:42%">Exercise</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Rest</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ex-name">Romanian Deadlift</span><span class="ex-note">Hinge at hips, feel the hamstring stretch</span></td>
+          <td><span class="sets-badge">4</span></td>
+          <td>8–10</td>
+          <td>2 min</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Hip Thrust (Barbell or Bodyweight)</span><span class="ex-note">Drive through heels, squeeze glutes at top</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>90s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Leg Curl (Machine)</span><span class="ex-note">Slow eccentric — 3 seconds down</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>10–12</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Bulgarian Split Squat</span><span class="ex-note">Rear foot elevated, bodyweight to start</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>8 each</td>
+          <td>75s</td>
+        </tr>
+        <tr>
+          <td><span class="ex-name">Plank</span><span class="ex-note">Core braced, neutral spine, breathe steady</span></td>
+          <td><span class="sets-badge">3</span></td>
+          <td>30–45s</td>
+          <td>45s</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="section-header">
+    <h2 class="section-title">Nutrition Basics</h2>
+    <div class="section-line"></div>
+    <div class="section-tag">Keep It Simple</div>
+  </div>
+
+  <div class="nutrition-strip">
+    <div class="nut-item">
+      <div class="nut-label">Protein</div>
+      <div class="nut-value">2g</div>
+      <div class="nut-sub">per kg of bodyweight, every day. Chicken, beef, eggs, fish, Greek yogurt.</div>
+    </div>
+    <div class="nut-divider"></div>
+    <div class="nut-item" style="padding: 0 32px;">
+      <div class="nut-label">Calories</div>
+      <div class="nut-value">+200</div>
+      <div class="nut-sub">Eat 200–300 calories above maintenance to build muscle without gaining excess fat.</div>
+    </div>
+    <div class="nut-divider"></div>
+    <div class="nut-item" style="padding-left: 32px;">
+      <div class="nut-label">Water</div>
+      <div class="nut-value">3–4L</div>
+      <div class="nut-sub">Daily minimum. Performance drops with dehydration. Non-negotiable.</div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="section-header" style="margin-top: 48px;">
+    <h2 class="section-title">Big T's Rules to Live By</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🔥</div>
+      <div class="tip-title">Warm Up Every Session</div>
+      <div class="tip-text">5–10 min on the bike or treadmill + 2 warm-up sets per first exercise. Cold muscles get injured.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">📈</div>
+      <div class="tip-title">Track Your Lifts</div>
+      <div class="tip-text">Write down every weight and rep. If you can't see progress, you can't chase it.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">😴</div>
+      <div class="tip-title">Sleep Is the Secret Weapon</div>
+      <div class="tip-text">Growth hormone peaks during deep sleep. 6–8 hours is the real anabolic window.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">⚡</div>
+      <div class="tip-title">Don't Skip the Boring Stuff</div>
+      <div class="tip-text">Face pulls, calf raises, planks — the unsexy exercises protect your joints long-term.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>
+      <div class="footer-brand">BIG <span>T</span></div>
+      <div class="footer-text">@tobifitlab · Free forever. Share it.</div>
+    </div>
+    <div class="footer-text" style="text-align: right;">
+      Want a custom plan?<br>
+      <strong style="color: var(--white);">DM "GAINS" on Instagram</strong>
+    </div>
+  </footer>
+
+</div>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = 210;
+  const MARGIN = 18;
+  const CONTENT = W - MARGIN * 2;
+  let y = 0;
+
+  const BLACK = [10, 10, 10];
+  const RED = [200, 48, 42];
+  const WHITE = [240, 237, 232];
+  const MUTED = [120, 120, 120];
+  const CARD = [22, 22, 22];
+  const BORDER = [42, 42, 42];
+  const RED_DIM = [42, 15, 13];
+
+  function newPage() {
+    doc.addPage();
+    y = MARGIN;
+    doc.setFillColor(...BLACK);
+    doc.rect(0, 0, W, 297, 'F');
+  }
+
+  function checkPage(needed) {
+    if (y + needed > 278) newPage();
+  }
+
+  // Background
+  doc.setFillColor(...BLACK);
+  doc.rect(0, 0, W, 297, 'F');
+  y = MARGIN;
+
+  // Top red bar
+  doc.setFillColor(...RED);
+  doc.rect(0, 0, W, 4, 'F');
+  y = 14;
+
+  // Eyebrow
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(...RED);
+  doc.setCharSpace(2);
+  doc.text('@BIGTLIFTS  ·  FREE TRAINING PROGRAM', MARGIN, y);
+  doc.setCharSpace(0);
+  y += 10;
+
+  // Title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(36);
+  doc.setTextColor(...WHITE);
+  doc.text('BEGINNER BLUEPRINT', MARGIN, y);
+  y += 7;
+
+  // Red line
+  doc.setFillColor(...RED);
+  doc.rect(MARGIN, y, 20, 1.5, 'F');
+  y += 8;
+
+  // Subtitle
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(...MUTED);
+  const subLines = doc.splitTextToSize('A no-fluff 4-day training program built for anyone starting from zero. Follow it for 8–12 weeks, stay consistent, and you will see results.', CONTENT - 40);
+  doc.text(subLines, MARGIN, y);
+  y += subLines.length * 5 + 4;
+
+  // Stats row
+  const stats = [['4', 'DAYS / WEEK'], ['8–12', 'WEEK PROGRAM'], ['60', 'MIN / SESSION']];
+  const statW = (CONTENT) / 3;
+  stats.forEach((s, i) => {
+    const sx = MARGIN + i * statW;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(...WHITE);
+    doc.text(s[0], sx, y + 7);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...MUTED);
+    doc.setCharSpace(1.5);
+    doc.text(s[1], sx, y + 13);
+    doc.setCharSpace(0);
+  });
+  y += 22;
+
+  // Rules section
+  const rules = [
+    ['01', 'CONSISTENCY FIRST', '4 days a week, every week. Missing sessions is the #1 reason beginners fail.'],
+    ['02', 'PROGRESSIVE OVERLOAD', 'Add weight or reps every 1–2 weeks. If it doesn\'t challenge you, it doesn\'t change you.'],
+    ['03', 'FORM OVER EGO', 'Light weight with perfect form builds more muscle than heavy weight with bad form.'],
+    ['04', 'REST & RECOVER', 'Muscle is built outside the gym. Sleep 6–8 hours. Rest days are part of the program.'],
+  ];
+  const ruleW = CONTENT / 4;
+  rules.forEach((r, i) => {
+    const rx = MARGIN + i * ruleW;
+    doc.setFillColor(...CARD);
+    doc.rect(rx, y, ruleW - 1, 28, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(60, 15, 12);
+    doc.text(r[0], rx + 3, y + 8);
+    doc.setFontSize(7);
+    doc.setTextColor(...WHITE);
+    doc.setCharSpace(0.8);
+    doc.text(r[1], rx + 3, y + 14);
+    doc.setCharSpace(0);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...MUTED);
+    const lines = doc.splitTextToSize(r[2], ruleW - 6);
+    doc.text(lines, rx + 3, y + 19);
+  });
+  y += 34;
+
+  // Schedule
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.setTextColor(...WHITE);
+  doc.text('WEEKLY SCHEDULE', MARGIN, y);
+  doc.setFillColor(...RED);
+  doc.rect(MARGIN + doc.getTextWidth('WEEKLY SCHEDULE') + 4, y - 4, CONTENT - doc.getTextWidth('WEEKLY SCHEDULE') - 4, 0.5, 'F');
+  y += 6;
+
+  const days = [
+    ['MON', 'Upper A', true],
+    ['TUE', 'Lower A', true],
+    ['WED', 'REST', false],
+    ['THU', 'Upper B', true],
+    ['FRI', 'Lower B', true],
+    ['SAT', 'REST', false],
+    ['SUN', 'REST', false],
+  ];
+  const dayW = CONTENT / 7;
+  days.forEach((d, i) => {
+    const dx = MARGIN + i * dayW;
+    doc.setFillColor(d[2] ? 26 : 18, d[2] ? 14 : 18, d[2] ? 13 : 18);
+    doc.rect(dx, y, dayW - 1, 14, 'F');
+    if (d[2]) {
+      doc.setDrawColor(...RED);
+      doc.setLineWidth(0.5);
+      doc.rect(dx, y, dayW - 1, 14, 'S');
+    }
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(d[2] ? RED[0] : MUTED[0], d[2] ? RED[1] : MUTED[1], d[2] ? RED[2] : MUTED[2]);
+    doc.setCharSpace(1);
+    doc.text(d[0], dx + (dayW - 1) / 2 - doc.getTextWidth(d[0]) / 2, y + 5);
+    doc.setCharSpace(0);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...(d[2] ? WHITE : MUTED));
+    const tw = doc.getTextWidth(d[1]);
+    doc.text(d[1], dx + (dayW - 1) / 2 - tw / 2, y + 10);
+  });
+  y += 20;
+
+  // Workout days
+  const workouts = [
+    {
+      day: 'MON', focus: 'Upper Body A — Push Focus', muscles: 'Chest · Shoulders · Triceps', duration: '~55 min',
+      exercises: [
+        ['Barbell Bench Press', '4', '8–10', '90s'],
+        ['Incline Dumbbell Press', '3', '10–12', '75s'],
+        ['Seated DB Shoulder Press', '3', '10–12', '75s'],
+        ['Lateral Raises', '3', '12–15', '60s'],
+        ['Tricep Cable Pushdown', '3', '12–15', '60s'],
+      ]
+    },
+    {
+      day: 'TUE', focus: 'Lower Body A — Quad Focus', muscles: 'Quads · Glutes · Calves', duration: '~60 min',
+      exercises: [
+        ['Barbell Back Squat', '4', '6–8', '2 min'],
+        ['Leg Press', '3', '10–12', '90s'],
+        ['Walking Lunges', '3', '10 each', '75s'],
+        ['Leg Extension', '3', '12–15', '60s'],
+        ['Standing Calf Raises', '4', '15–20', '45s'],
+      ]
+    },
+    {
+      day: 'THU', focus: 'Upper Body B — Pull Focus', muscles: 'Back · Biceps · Rear Delts', duration: '~55 min',
+      exercises: [
+        ['Barbell / Dumbbell Row', '4', '8–10', '90s'],
+        ['Lat Pulldown', '3', '10–12', '75s'],
+        ['Seated Cable Row', '3', '10–12', '75s'],
+        ['Face Pulls', '3', '12–15', '60s'],
+        ['Dumbbell Bicep Curl', '3', '10–12', '60s'],
+      ]
+    },
+    {
+      day: 'FRI', focus: 'Lower Body B — Posterior Chain', muscles: 'Hamstrings · Glutes · Lower Back', duration: '~60 min',
+      exercises: [
+        ['Romanian Deadlift', '4', '8–10', '2 min'],
+        ['Hip Thrust', '3', '10–12', '90s'],
+        ['Leg Curl (Machine)', '3', '10–12', '75s'],
+        ['Bulgarian Split Squat', '3', '8 each', '75s'],
+        ['Plank', '3', '30–45s', '45s'],
+      ]
+    },
+  ];
+
+  workouts.forEach(w => {
+    checkPage(52);
+    // Day header
+    doc.setFillColor(25, 25, 25);
+    doc.rect(MARGIN, y, CONTENT, 12, 'F');
+    doc.setFillColor(...RED);
+    doc.rect(MARGIN, y, 1.5, 12, 'F');
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(...RED);
+    doc.text(w.day, MARGIN + 5, y + 8);
+
+    doc.setFontSize(10);
+    doc.setTextColor(...WHITE);
+    doc.text(w.focus, MARGIN + 20, y + 6);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...MUTED);
+    doc.text(w.muscles, MARGIN + 20, y + 10.5);
+
+    doc.setTextColor(...MUTED);
+    doc.text(w.duration, W - MARGIN - doc.getTextWidth(w.duration), y + 8);
+    y += 12;
+
+    // Table
+    doc.autoTable({
+      startY: y,
+      margin: { left: MARGIN, right: MARGIN },
+      head: [['Exercise', 'Sets', 'Reps', 'Rest']],
+      body: w.exercises,
+      theme: 'plain',
+      styles: {
+        font: 'helvetica',
+        fontSize: 8,
+        textColor: WHITE,
+        fillColor: CARD,
+        cellPadding: { top: 3, bottom: 3, left: 4, right: 4 },
+        lineColor: [35, 35, 35],
+        lineWidth: 0.3,
+      },
+      headStyles: {
+        fontSize: 7,
+        textColor: MUTED,
+        fillColor: [18, 18, 18],
+        fontStyle: 'bold',
+        cellPadding: { top: 3, bottom: 3, left: 4, right: 4 },
+      },
+      columnStyles: {
+        0: { cellWidth: CONTENT * 0.52, textColor: WHITE },
+        1: { cellWidth: CONTENT * 0.12, halign: 'center', textColor: [220, 120, 115] },
+        2: { cellWidth: CONTENT * 0.18, halign: 'center', textColor: [200, 200, 200] },
+        3: { cellWidth: CONTENT * 0.18, halign: 'center', textColor: MUTED },
+      },
+      alternateRowStyles: { fillColor: [20, 20, 20] },
+      tableLineColor: BORDER,
+      tableLineWidth: 0.3,
+    });
+    y = doc.lastAutoTable.finalY + 8;
+  });
+
+  // Nutrition
+  checkPage(40);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.setTextColor(...WHITE);
+  doc.text('NUTRITION BASICS', MARGIN, y);
+  y += 6;
+
+  const nutItems = [
+    ['PROTEIN', '2g / kg bodyweight', 'Chicken, beef, eggs, fish, Greek yogurt. Every single day.'],
+    ['CALORIES', '+200–300 above maintenance', 'Eat in a slight surplus to build muscle without gaining excess fat.'],
+    ['WATER', '3–4 liters daily', 'Performance drops with dehydration. Non-negotiable.'],
+  ];
+  const nutW = CONTENT / 3;
+  nutItems.forEach((n, i) => {
+    const nx = MARGIN + i * nutW;
+    doc.setFillColor(...CARD);
+    doc.rect(nx, y, nutW - 2, 24, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(...MUTED);
+    doc.setCharSpace(1.5);
+    doc.text(n[0], nx + 4, y + 6);
+    doc.setCharSpace(0);
+    doc.setFontSize(11);
+    doc.setTextColor(...WHITE);
+    doc.text(n[1], nx + 4, y + 13);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...MUTED);
+    const lines = doc.splitTextToSize(n[2], nutW - 8);
+    doc.text(lines, nx + 4, y + 19);
+  });
+  y += 30;
+
+  // Big T's Rules
+  checkPage(30);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.setTextColor(...WHITE);
+  doc.text("BIG T'S RULES TO LIVE BY", MARGIN, y);
+  y += 6;
+
+  const tips = [
+    ['WARM UP EVERY SESSION', '5–10 min cardio + 2 warm-up sets per first exercise. Cold muscles get injured.'],
+    ['TRACK YOUR LIFTS', 'Write down every weight and rep. If you can\'t see progress, you can\'t chase it.'],
+    ['SLEEP IS THE SECRET WEAPON', 'Growth hormone peaks during deep sleep. 6–8 hours is the real anabolic window.'],
+    ["DON'T SKIP THE BORING STUFF", 'Face pulls, calf raises, planks — the unsexy exercises protect your joints long-term.'],
+  ];
+  const tipW = CONTENT / 2;
+  tips.forEach((t, i) => {
+    const tx = MARGIN + (i % 2) * tipW;
+    const ty = y + Math.floor(i / 2) * 18;
+    doc.setFillColor(...CARD);
+    doc.rect(tx, ty, tipW - 2, 16, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...WHITE);
+    doc.setCharSpace(0.5);
+    doc.text(t[0], tx + 4, ty + 6);
+    doc.setCharSpace(0);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(...MUTED);
+    const lines = doc.splitTextToSize(t[1], tipW - 8);
+    doc.text(lines, tx + 4, ty + 11);
+  });
+  y += 40;
+
+  // Footer
+  checkPage(20);
+  doc.setFillColor(...RED);
+  doc.rect(MARGIN, y, CONTENT, 0.5, 'F');
+  y += 6;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(...WHITE);
+  doc.text('BIG T', MARGIN, y + 6);
+  doc.setTextColor(...RED);
+  doc.text('LIFTS', MARGIN + doc.getTextWidth('BIG T') + 2, y + 6);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...MUTED);
+  doc.text('@bigtlifts  ·  Free forever. Share it.', MARGIN, y + 12);
+
+  doc.setTextColor(...WHITE);
+  doc.text('Want a custom plan? DM "GAINS" on Instagram', W - MARGIN, y + 12, { align: 'right' });
+
+  doc.save('BigT-Beginner-Blueprint.pdf');
+}
+</script>
+
+</body>
+</html>
